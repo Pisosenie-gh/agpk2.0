@@ -1,0 +1,30 @@
+{% extends 'basic.html' %}
+{% block title %}All Bookings
+{% endblock title %}
+{% block body %}
+<h3 class="text-center"  style = "color:#0071c2; font-weight: 500!important; text-align: center; margin: 2%;">Все арендаторы </h3>
+<table class="table">
+    <thead>
+        <th>Пользователь</th>
+        <th>Комната</th>
+        <th>Местоположение</th>
+        <th>Кол-во людей</th>
+        <th>Вьезд</th>
+        <th>Выезд out</th>
+        <th>Цена</th>
+    </thead>
+    {% for each_booking in bookings %}
+    <tr>
+        <td>{{each_booking.guest.username}}</td>
+        <td>{{each_booking.room.roomnumber}}</td>
+        <td>{{each_booking.room.hotel.location}}</td>
+        <td>{{each_booking.room.capacity}}</td>
+        <td>{{each_booking.check_in}}</td>
+        <td>{{each_booking.check_out}}</td>
+        <td>{{each_booking.room.price}}</td>
+    </tr>
+    {% endfor %}
+
+
+</table>
+{% endblock body %}

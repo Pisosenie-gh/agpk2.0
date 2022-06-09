@@ -1,0 +1,148 @@
+    {% extends 'basic.html' %}
+    {% block title %}Hotel Krishna
+    {% endblock title %}
+    {% block body %}
+    
+    <section>
+        <div class="container-fluid py-5 px-5 ">
+            <form action="" method="POST">
+            {% csrf_token %}
+            <div class="row justify-content-center py-5 bg-light">
+                <div class="col-lg-4">
+                    <label for="">Местоположение</label>
+                    <select class="form-control" name="search_location" id="roomstatus" required>
+                   
+                        <option>Выберите Местоположение</option>
+                        {% for each_location,each_hotel_id in all_location %}
+                            
+                            <option value={{each_hotel_id}}>{{each_location}}</option>
+                        {% endfor %}    
+                        
+                        
+                            
+                    </select>
+                </div>
+                {%load app_tags%}
+                <div class="col-lg-2">
+                    <label for="">Вьезд</label>
+                    <input class="form-control mr-sm-2" type="date" required placeholder="Check in" name="cin" min={%todays_date%} max={% max_date %} aria-label="Search" required="True">
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Выезд</label>
+                    <input class="form-control mr-sm-2" type="date" required placeholder="Check out" name="cout" min={%tommorow%} max={% max_date%} aria-label="Search" required="True">
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Кол-во людей</label>
+                    <input class="form-control mr-sm-2" type="number" required placeholder="0" name="capacity" aria-label="Search" required="True">
+                </div>
+                <div class="col-lg-2">
+
+                    <input type="submit" value="Проверить наличие" class="form-control mr-sm-2 btn btn-primary my-4" style="position: relative;top: 7px;">
+                </div>
+                {% if rooms %}
+                <p class="text-center text-success">Комнаты найдены</p>
+                {% endif %}
+                
+            </div>
+            </form>
+
+        </div>
+    </section>
+
+    <div class="container-fluid px-0 mx-aut">
+        {% if rooms %}
+           <table class="table">
+               <thead class="o">
+                <th>Тип комнаты</th>
+                <th>Местоположение</th>
+                <th>Кол-во людей</th>
+                <th>Цена</th>
+                <th>Действие</th>
+            </thead>
+            {% for r in rooms %}
+                <tr class="">
+                <td>{{ r.get_room_type_display }}</td>
+                <td>{{ r.hotel.location }}</td>
+                <td>{{ r.capacity }}</td>
+                <td>{{ r.price }}</td>
+                
+                <td><a href="/user/book-room?roomid={{r.id}}"> <button class="btn btn-group bg-light font-weight-bold" style = "color:#0071c2; font-weight: 500!important" >Арендовать сейчас</button></a></td>
+                </tr>
+            {% endfor %}
+            
+           </table> 
+        {% endif %}
+    </div>
+
+
+    <h3 class="text-center text-dark">Типы комнат</h3>
+
+    <div class="container-fluid px-0" style="border:1px solid #0071c2">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Информация</th>
+                    <th class="text-center">Фото</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">
+                        <h1>Budget</h1>
+                        <p>Цена: уточняется при оформлении</p>
+
+                        <p>Размер: 20 кв. м</p>
+                        <p>Вместимость: Максимальная Вместимость 3 человека</p>
+
+                        <p>Сервисы: Wifi,Tv</p>
+
+                    </td>
+                    <td class="text-center">
+                        <img src="https://tengrinews.kz/userdata/news/2019/news_367176/thumb_m/photo_277747.jpg" alt="" class="img-fluid pt-4" width="300px;
+                    }">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="text-center">
+                        <h1>Premium</h1>
+                        <p>Цена: уточняется при оформлении</p>
+
+                        <p>Размер: 40 кв. м</p>
+                        <p>Вместимость: Максимальная Вместимость 6 человека</p>
+
+                        <p>Сервисы: Wifi,Tv, Ванная</p>
+                    </td>
+                    <td class="text-center">
+                        <img src="https://www.inform.kz/radmin/news/2021/09/13/210913164836767e.jpg"
+                            alt="" class="img-fluid pt-4" width="300px;"
+                            >
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="text-center">
+                        <h1>Deluxe</h1>
+                        <p>Цена: уточняется при оформлении</p>
+
+                        <p>Размер: 30 кв. м</p>
+                        <p>Вместимость: Максимальная Вместимость 3 человека</p>
+
+                        <p>Сервисы: Wifi,Tv, Ванная, Балкон</p>
+                    </td>
+                    <td class="text-center">
+                        <img src="https://static.dw.com/image/19112021_303.jpg"
+                            alt="" class="img-fluid pt-4" width="300px;">
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    
+    {% endblock body %}
+   
+   

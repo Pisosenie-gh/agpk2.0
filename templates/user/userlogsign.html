@@ -1,0 +1,99 @@
+{% extends 'basic.html' %}
+{% block title %}login
+{% endblock title %}
+{% block body %}
+<div class="container py-5">
+
+
+    <section>
+        <div class="card w-50 mx-auto">
+            <div class="card-title bg-light ">
+                <div class="container mt-3 mx-auto">
+
+                    <ul class="nav nav-tabs justify-content-center w-100 " style="width:358px">
+
+                        <li class="nav-item">
+                            <a class="nav-link active " data-toggle="tab" href="#home" style="width:158px">Вход</a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#menu1" style="width:158px">Регистрация</a>
+                        </li>
+
+                </div>
+            </div>
+
+
+            </ul>
+            <div class="card-body">
+
+                <div class="tab-content">
+                    <div id="home" class="container tab-pane active">
+                        <p class="text-center text-dark">Авторизация</p>
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-xlg-12 col-sm-12">
+
+                                    <form action="/user/login"  method="post">
+                                        {%csrf_token%}
+                                        <div class="form-group">
+                                            <label for="email">Логин:</label>
+                                            <input type="text" class="form-control " id="username" placeholder="Логин" name="email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pwd">Пароль:</label>
+                                            <input type="password" class="form-control " id="password" placeholder="Пароль" name="pswd">
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <label class="form-check-label">
+                                                    <input class="form-check-input " type="checkbox"
+                                                        name="remember">
+                                                    Запомнить меня
+                                                </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Вход</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="menu1" class="container tab-pane fade">
+                        <p class="text-center text-dark">Регистрация</p>
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-xlg-12 col-sm-12">
+
+                                    <form action="/user/signup" method="post">
+                                        <div class="form-group">
+                                            {%csrf_token%}
+                                            <label for="Логин">Логин:</label>
+                                            <input type="text" class="form-control " id="username" placeholder="Логин" name="username">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="pwd">Пароль:</label>
+                                            <input type="Пароль" class="form-control " id="password" placeholder=" Пароль" name="password1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pwd">Подтвердите Пароль:</label>
+                                            <input type="Пароль" class="form-control " id="password2" placeholder="Подтвердите Пароль" name="password2">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Регистрация</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+    </section>
+    </div>
+
+{% endblock body %}

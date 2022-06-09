@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> AGPK
+    </title>
+
+    <style> 
+    .bg-custom {
+    background-color: #003580;
+    }
+    .custom-text {
+        color: #0c5460;
+    }
+
+</style>
+    <!--Cdn links for bootstrap-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'bootstrap\bootstrap.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="icon" href="https://brief.agpk.kz/enrollee/assets/img/agpk.png" type="image/gif" sizes="16x16">
+    {% block css %}
+    {% endblock css %}
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body style="dbackground-image: url('https://source.unsplash.com/random');height: 100%;">
+
+    <div class="container-fluid px-0">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-custom font-weight-bold "  >
+            <a class="navbar-brand text-bold bg-black " href="/"><img src="https://brief.agpk.kz/enrollee/assets/img/agpk.png" style="width: 23%" ></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto ">
+                    <li class="nav-item active">
+                        <a class="nav-link text-bold custom-text"  style = "color:#ffffff" href="/home"> Домашняя страница</a>
+                    </li>
+                    {% if user.is_staff %}
+                    <li class="nav-item active">
+                        <a class="nav-link text-bold"  style = "color:#ffffff" href="/staff/panel">Панель аналитики
+                        </a>
+                    </li>
+                    {% elif user.is_staff == False and user.is_authenticated %}
+                    <li class="nav-item active">
+                            <a class="nav-link text-bold" href="/user/bookings"  style = "color:#ffffff" >Мои комнаты </a>
+                        </li>
+                    
+                    
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <li class="nav-item active">
+                            <a class="nav-link text-bold"  style = "color:#ffffff" href="/staff/allbookings">Все комнаты </a>
+                        </li>
+                    {% endif %}
+                    
+                    
+
+                    
+                   
+                </ul>
+                {% if user.is_authenticated %}
+                      <button class="btn btn-group bg-light" data-toggle="modal" data-target="#forlogin" style = "color:#0071c2; font-weight: 500!important" >
+                       Hello, {{request.user}}
+                       <a href="/logout" class="nav-link ">
+                    <button class="btn btn-group  bg-light " data-toggle="modal" data-target="#forlogin" style = "color:#0071c2; font-weight: 500!important" >
+                        Выйти
+                    </button></a>&nbsp; &nbsp;
+                    </button>
+                
+                {% else %}
+                   
+                    <a href="/user" class="nav-link">
+                    <button class="btn btn-group bg-light font-weight-bold" data-toggle="modal" data-target="#forlogin" style = "color:#0071c2; font-weight: 500!important" >
+                        Вход для пользователей
+                    </button></a>
+                <a href="/staff" class="nav-link">
+                    <button class="btn btn-group bg-light font-weight-bold" style = "color:#0071c2; font-weight: 500!important" >
+                        Вход для сотрудников
+                    </button></a>
+                {% endif %}
+
+               
+            </div>
+        </nav>
+    </div>
+
+    
+    
+    
+        {% for message in messages %}
+             <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+             </button>
+            </div>
+        {% endfor %}
+    
+    {% block body %}
+    
+    {% endblock body %}
+        
+   
+    
+
+
+
+
+
+    
+</body>
+{% block js %}
+{% endblock js %}
+</html>
