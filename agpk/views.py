@@ -216,13 +216,14 @@ def add_new_room(request):
         print(f"name={hotel.name}")
 
 
-        new_room.roomnumber = total_rooms + 1
+        new_room.roomnumber = int(request.POST['roomnumber'])
+        new_room.floor = int(request.POST['floor'])
         new_room.room_type  = request.POST['roomtype']
         new_room.capacity   = int(request.POST['capacity'])
         new_room.size       = int(request.POST['size'])
         new_room.capacity   = int(request.POST['capacity'])
         new_room.hotel      = hotel
-        new_room.status     = request.POST['status']
+        new_room.status     = request.POST['status'] 
         new_room.price      = request.POST['price']
 
         new_room.save()

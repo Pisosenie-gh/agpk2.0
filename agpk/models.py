@@ -31,6 +31,7 @@ class Rooms(models.Model):
     hotel = models.ForeignKey(Hotels, on_delete = models.CASCADE, verbose_name='Общежитие')
     status = models.CharField(choices =ROOM_STATUS,max_length = 15, verbose_name='Статус')
     roomnumber = models.IntegerField(verbose_name='Номер комнаты')
+    floor = models.IntegerField(verbose_name='Этаж', default=0)
     def __str__(self):
         return self.hotel.name
 
