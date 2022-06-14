@@ -1,0 +1,47 @@
+{% extends 'basic.html' %}
+{% block title %}
+{% endblock title %}
+{% block body %}
+
+
+
+ 
+
+
+<h3 class="text-center text-dark" style="margin: 2%;">Комнаты</h3>
+
+<div class="container-fluid px-0" style="border:1px solid #0071c2">
+    {% if room %}
+    <table class="table table-striped">
+        <thead>
+           
+            <tr>
+
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for i in room %}
+            <tr>
+                <td class="text-center">
+                    <h1>{{i.get_room_type_display}}</h1>
+                    <p>Номер комнаты: {{i.roomnumber}}</p>
+
+                    <p>Этаж: {{i.floor}}</p>
+
+
+                </td>
+                <td><a href="/user/book-room?roomid={{i.id}}"> <button class="btn btn-group bg-light font-weight-bold" style = "color:#0071c2; font-weight: 500!important; margin: 5%;" >Записаться</button></a></td>
+
+            </tr>
+            {% endfor %}
+           
+          
+
+        </tbody>
+    </table>
+    {% endif %}</div>
+
+
+{% endblock body %}
+
