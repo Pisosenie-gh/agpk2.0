@@ -188,19 +188,17 @@
 <Button class="btn-group btn-primary" data-toggle="modal" data-target="#newroom">Добавить комнату</Button>
 
 
-<Button class="btn-group btn-primary " data-toggle="modal" data-target="#newlocation" >Добавить общежитие</Button>
 
 <table class="table table-striped  ">
     <thead>
         <th>Номер комнаты</th>
         <th>Этаж</th>
-        <th>Название</th>
+
         
         <th>Тип комнаты</th>
         <th>Статус комнаты</th>
-        <th>Цена</th>
-        <th>Вместимость</th>
-        <th>Размер</th>
+
+ 
         <th colspan="2">Действия</th>
 
     </thead>
@@ -209,12 +207,11 @@
     <tr>
         <td>{{each_room.roomnumber}}</td>
         <td>{{each_room.floor}}</td>
-        <td>{{each_room.hotel.location}}</td>        
+    
         <td>{{each_room.get_room_type_display}}</td>
         <td>{{each_room.get_status_display}}</td>
-        <td>{{each_room.price}}</td>
-        <td>{{each_room.capacity}}</td>
-        <td>{{each_room.size}} кв.м</td>
+
+
         <td colspan="2">
             <a href="/staff/panel/edit-room?roomid={{each_room.id}}"><Button class="btn btn-danger">Изменить</Button></a>
             <a href="/staff/panel/view-room?roomid={{each_room.id}}"><Button class="btn btn-primary">Просмотр</Button></a>
@@ -229,45 +226,6 @@
 
 </table>
 
-<div class="modal" id="newlocation">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-title">Добавить общежитие</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <div class="container">
-
-                    <div class="row">
-                        <div class="col mx-auto">
-
-                            <form action="/staff/panel/add-new-location" method="POST">
-                                {% csrf_token %}
-
-
-                               
-                                <div class="form-group">
-                                    <label for="city">Название:</label>
-                                    <input type="text" class="form-control " id="new_city" name="new_city">
-                                </div>
-                       
-
-
-                                <button type="submit" class="btn btn-primary">Добавить общежитие</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>
-</div>
 
 <div class="modal" id="newroom">
     <div class="modal-dialog">
@@ -296,10 +254,7 @@
                                         <option value="3">Basic</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="pwd">Вместимость:</label>
-                                    <input type="number" class="form-control " id="capacity" name="capacity">
-                                </div>
+                                
                                 <div class="form-group">
                                     <label for="pwd">Этаж:</label>
                                     <input type="number" class="form-control " id="floor" name="floor">
@@ -309,14 +264,7 @@
                                     <input type="mumber" class="form-control " id="roomnumber" name="roomnumber" >
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="pwd">Цена:</label>
-                                    <input type="mumber" class="form-control " id="price" name="price">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pwd">Размер:</label>
-                                    <input type="number" class="form-control " id="size" name="size">
-                                </div>
+                              
                                 <div class="form-group">
                                     <label for="pwd">Статус:</label>
                                     <select class="form-control" name="status" id="roomstatus">
@@ -326,17 +274,7 @@
                                         
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="pwd">Общежитие:</label>
-
-                                    <select class="form-control" name="hotel" id="hotel">
-                                        {% for each_location,eachid in location%}
-                                        <option value={{eachid}}>{{each_location}}</option>
-                                        {% endfor %}
-                                        
-                                        
-                                    </select>
-                                </div>
+                               
                                 <button type="submit" class="btn btn-primary">Добавить комнату</button>
                             </form>
                         </div>

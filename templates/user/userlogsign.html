@@ -39,8 +39,8 @@
                                     <form action="/user/login"  method="post">
                                         {%csrf_token%}
                                         <div class="form-group">
-                                            <label for="email">Логин:</label>
-                                            <input type="text" class="form-control " id="username" placeholder="Логин" name="email">
+                                            <label for="email">ФИО:</label>
+                                            <input type="text" class="form-control " id="username" placeholder="ФИО" name="email">
                                         </div>
                                         <div class="form-group">
                                             <label for="pwd">Пароль:</label>
@@ -69,8 +69,8 @@
                                     <form action="/user/signup" method="post">
                                         <div class="form-group">
                                             {%csrf_token%}
-                                            <label for="Логин">Логин:</label>
-                                            <input type="text" class="form-control " id="username" placeholder="Логин" name="username">
+                                            <label for="ФИО">ФИО:</label>
+                                            <input type="text" class="form-control " id="username" placeholder="ФИО" name="username">
                                         </div>
 
                                         <div class="form-group">

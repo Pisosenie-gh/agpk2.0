@@ -37,8 +37,8 @@ urlpatterns = [
     path('logout', views.logoutuser,name="logout"),
     path('staff/panel', views.panel,name="staffpanel"),
     path('staff/allbookings', views.all_bookings,name="allbookigs"),
+    path('all-rooms', views.all_rooms,name="allrooms"),
     
-    path('staff/panel/add-new-location', views.add_new_location,name="addnewlocation"),
     path('staff/panel/edit-room', views.edit_room),
     path('staff/panel/add-new-room', views.add_new_room,name="addroom"),
     path('staff/panel/edit-room/edit', views.edit_room),

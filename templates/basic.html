@@ -54,6 +54,11 @@
                         <a class="nav-link text-bold"  style = "color:#ffffff" href="/staff/panel">Панель аналитики
                         </a>
                     </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link text-bold"  style = "color:#ffffff" href="/admin">Админ панель
+                        </a>
+                    </li>
                     {% elif user.is_staff == False and user.is_authenticated %}
                     <li class="nav-item active">
                             <a class="nav-link text-bold" href="/user/bookings"  style = "color:#ffffff" >Мои комнаты </a>

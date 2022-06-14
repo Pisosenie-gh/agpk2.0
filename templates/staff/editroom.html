@@ -120,21 +120,9 @@
 
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="pwd">Вместимость:</label>
-                        <input type="number" class="form-control " id="capacity" name="capacity" value="{{room.capacity}}">
-                    </div>
 
 
-                    <div class="form-group">
-                        <label for="pwd">Цена:</label>
-                        <input type="mumber" class="form-control " id="price" name="price" value="{{room.price}}">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="pwd">Размер:</label>
-                        <input type="number" class="form-control " id="size" name="size" value="{{room.size}}">
-                    </div>
                     <div class="form-group">
                         <label for="pwd">Статус:</label>
                         <select class="form-control" name="status" id="status">
@@ -143,10 +131,7 @@
                             
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="pwd">Название:</label>
-                        <input type="text" class="form-control " id="hotel" name="hotel" value="{{room.hotel.location}}" disabled>
-                    </div>
+             
                     <button type="submit" class="btn btn-danger">Сохранить</button>
                     <input type="hidden" name="roomid" value="{{room.id}}">
                     <input type="hidden" name="roomtypevalue" id="roomtypevalue" value="{{room.room_type}}">

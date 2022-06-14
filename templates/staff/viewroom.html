@@ -5,10 +5,7 @@
     <p><b>Номер комнаты :</b> {{room.roomnumber}}</p>
     <p><b>Этаж :</b> {{room.floor}}</p>
     <p><b>Тип комнаты :</b> {{room.get_room_type_display}}</p>
-    <p><b>Вместимость :</b> {{room.capacity}} person</p>
-    <p><b>Размер :</b> {{room.size}} кв.м</p>
     <p><b>Статус :</b> {{room.get_status_display| capfirst}} </p>
-    <p><b>Название :</b> {{room.hotel.location| capfirst}} </p>
 
 </div>
 
@@ -17,17 +14,11 @@
 <h3  style = "color:#0071c2; font-weight: 500!important; text-align: center; margin: 2%;" >Арендующие</h3>
 <table class="table">
     <thead>
-        <th>Username</th>
-        <th>Кол-во человек</th>
-        <th>Вьезд</th>
-        <th>Выезд</th>
+        <th>ФИО</th>
     </thead>
     {% for each_detail in reservations %}
     <tr>
         <td>{{each_detail.guest.username}}</td>
-        <td>{{each_detail.room.capacity}}</td>
-        <td>{{each_detail.check_in}}</td>
-        <td>{{each_detail.check_out}}</td>
     </tr>
     {% endfor %}
     <tr>

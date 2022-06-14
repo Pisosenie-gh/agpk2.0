@@ -1,31 +1,36 @@
 from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
-from .models import Hotels,Rooms,Reservation
+from .models import Rooms,Reservation
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import datetime
 
+
+
+def all_rooms(request):
+
+    room = Rooms.objects.all()
+    return render(request,'all_rooms.html', {'room': room})
+
+
+
 def homepage(request):
-    all_location = Hotels.objects.values_list('location','id').distinct().order_by()
+    all_location = Rooms.objects.values_list('roomnumber','id').distinct().order_by()
     if request.method =="POST":
         try:
             print(request.POST)
-            hotel = Hotels.objects.all().get(id=int(request.POST['search_location']))
+            room = Rooms.objects.all().get(id=int(request.POST['search_location']))
             rr = []
             
 
             for each_reservation in Reservation.objects.all():
-                if str(each_reservation.check_in) < str(request.POST['cin']) and str(each_reservation.check_out) < str(request.POST['cout']):
-                    pass
-                elif str(each_reservation.check_in) > str(request.POST['cin']) and str(each_reservation.check_out) > str(request.POST['cout']):
-                    pass
-                else:
-                    rr.append(each_reservation.room.id)
+
+                rr.append(each_reservation.room.id)
                 
-            room = Rooms.objects.all().filter(hotel=hotel,capacity__gte = int(request.POST['capacity'])).exclude(id__in=rr)
-            if len(room) == 0:
+            room = Rooms.objects.all().filter(roomnumber=room.id,capacity__gte = 3).exclude(id__in=rr)
+            if len(room) == 3:
                 messages.warning(request,"Извините, в этот период нет свободных комнат.")
             data = {'rooms':room,'all_location':all_location,'flag':True}
             response = render(request,'index.html',data)
@@ -171,9 +176,8 @@ def panel(request):
     unavailable_rooms = len(Rooms.objects.all().filter(status='2'))
     reserved = len(Reservation.objects.all())
 
-    hotel = Hotels.objects.values_list('location','id').distinct().order_by()
-    name = Hotels.objects.all()
-    response = render(request,'staff/panel.html',{'location':hotel,'reserved':reserved,'rooms':rooms,'total_rooms':total_rooms,'available':available_rooms,'unavailable':unavailable_rooms})
+
+    response = render(request,'staff/panel.html',{'reserved':reserved,'rooms':rooms,'total_rooms':total_rooms,'available':available_rooms,'unavailable':unavailable_rooms})
     return HttpResponse(response)
 
 
@@ -184,12 +188,7 @@ def edit_room(request):
     if request.method == 'POST' and request.user.is_staff:
         print(request.POST)
         old_room = Rooms.objects.all().get(id= int(request.POST['roomid']))
-        hotel = Hotels.objects.all().get(id=int(request.POST['hotel']))
         old_room.room_type  = request.POST['roomtype']
-        old_room.capacity   =int(request.POST['capacity'])
-        old_room.price      = int(request.POST['price'])
-        old_room.size       = int(request.POST['size'])
-        old_room.hotel      = hotel
         old_room.status     = request.POST['status']
         old_room.room_number=int(request.POST['roomnumber'])
 
@@ -211,20 +210,12 @@ def add_new_room(request):
     if request.method == "POST":
         total_rooms = len(Rooms.objects.all())
         new_room = Rooms()
-        hotel = Hotels.objects.all().get(id = int(request.POST['hotel']))
-        print(f"id={hotel.id}")
-        print(f"name={hotel.name}")
 
 
         new_room.roomnumber = int(request.POST['roomnumber'])
         new_room.floor = int(request.POST['floor'])
         new_room.room_type  = request.POST['roomtype']
-        new_room.capacity   = int(request.POST['capacity'])
-        new_room.size       = int(request.POST['size'])
-        new_room.capacity   = int(request.POST['capacity'])
-        new_room.hotel      = hotel
         new_room.status     = request.POST['status'] 
-        new_room.price      = request.POST['price']
 
         new_room.save()
         messages.success(request,"Новая комната успешно добавлена")
@@ -246,17 +237,8 @@ def book_room(request):
         
         room = Rooms.objects.all().get(id=room_id)
         #for finding the reserved rooms on this time period for excluding from the query set
-        for each_reservation in Reservation.objects.all().filter(room = room):
-            if str(each_reservation.check_in) < str(request.POST['check_in']) and str(each_reservation.check_out) < str(request.POST['check_out']):
-                pass
-            elif str(each_reservation.check_in) > str(request.POST['check_in']) and str(each_reservation.check_out) > str(request.POST['check_out']):
-                pass
-            else:
-                messages.warning(request,"Извините, эта комната недоступна для бронирования")
-                return redirect("homepage")
-            
+       
         current_user = request.user
-        total_person = int( request.POST['person'])
         booking_id = str(room_id) + str(datetime.datetime.now())
 
         reservation = Reservation()
@@ -267,9 +249,6 @@ def book_room(request):
 
         reservation.guest = user_object
         reservation.room = room_object
-        person = total_person
-        reservation.check_in = request.POST['check_in']
-        reservation.check_out = request.POST['check_out']
 
         reservation.save()
 
@@ -301,28 +280,7 @@ def user_bookings(request):
         messages.warning(request,"Бронирования не найдены")
     return HttpResponse(render(request,'user/mybookings.html',{'bookings':bookings}))
 
-@login_required(login_url='/staff')
-def add_new_location(request):
-    if request.method == "POST" and request.user.is_staff:
 
-        location = request.POST['new_city']
-
-        
-        hotels = Hotels.objects.all().filter(location = location)
-        if hotels:
-            messages.warning(request,"Такой уже есть!")
-            return redirect("staffpanel")
-        else:
-            new_hotel = Hotels()
-
-            new_hotel.location = location
-
-            new_hotel.save()
-            messages.success(request,"Новое место успешно добавлено")
-            return redirect("staffpanel")
-
-    else:
-        return HttpResponse("Not Allowed")
 
 @login_required(login_url='/staff')
 def all_bookings(request):
