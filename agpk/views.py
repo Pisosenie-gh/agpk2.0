@@ -1,3 +1,4 @@
+from typing import Counter
 from django.shortcuts import render ,redirect
 from django.http import HttpResponse , HttpResponseRedirect
 from .models import Rooms,Reservation
@@ -10,9 +11,29 @@ import datetime
 
 
 def all_rooms(request):
-
+    
     room = Rooms.objects.all()
-    return render(request,'all_rooms.html', {'room': room})
+
+    reservation_numbers = []
+    numbers = []
+
+    reservation = Reservation.objects.all()
+    for each_reservation in Reservation.objects.all():
+        
+        reservation_numbers.append(each_reservation.room.id)
+      
+    
+    c = Counter(reservation_numbers)
+
+    for i in room:
+        
+
+        if i.capacity > c[i.id]:
+            numbers.append(i.id)
+
+    rooms = Rooms.objects.all().filter(id__in=numbers)
+
+    return render(request,'all_rooms.html', {'room': rooms, 'reservation': reservation})
 
 
 
@@ -21,15 +42,13 @@ def homepage(request):
     if request.method =="POST":
         try:
             print(request.POST)
-            room = Rooms.objects.all().get(id=int(request.POST['search_location']))
+
             rr = []
             
 
-            for each_reservation in Reservation.objects.all():
 
-                rr.append(each_reservation.room.id)
                 
-            room = Rooms.objects.all().filter(roomnumber=room.id,capacity__gte = 3).exclude(id__in=rr)
+            room = Rooms.objects.all().filter(roomnumber=room.id,capacity__gte = 3)
             if len(room) == 3:
                 messages.warning(request,"Извините, в этот период нет свободных комнат.")
             data = {'rooms':room,'all_location':all_location,'flag':True}
@@ -191,7 +210,7 @@ def edit_room(request):
         old_room.room_type  = request.POST['roomtype']
         old_room.status     = request.POST['status']
         old_room.room_number=int(request.POST['roomnumber'])
-
+        old_room.capacity=int(request.POST['capacity'])
         old_room.save()
         messages.success(request,"Информация о номере комнате обновлена")
         return redirect('staffpanel')
@@ -211,7 +230,7 @@ def add_new_room(request):
         total_rooms = len(Rooms.objects.all())
         new_room = Rooms()
 
-
+        new_room.capacity=int(request.POST['capacity'])
         new_room.roomnumber = int(request.POST['roomnumber'])
         new_room.floor = int(request.POST['floor'])
         new_room.room_type  = request.POST['roomtype']
